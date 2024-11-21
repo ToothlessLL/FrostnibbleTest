@@ -207,7 +207,7 @@ export default {
                 .setColor('#3b5cac')
                 .setImage(newEventList[0].image);
 			let user;
-			for (i = 0; i < data.length; i++) {
+			for (let i = 0; i < data.length; i++) {
 				user = await client.users.fetch(data[i].userID).catch(console.error);
                 let userList = subscriptionList.filter(list => list.userID == data[i].userID);
                 let nextSubscribedEventIndex = modifiedEventList.findIndex(index => {

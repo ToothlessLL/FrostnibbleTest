@@ -33,7 +33,6 @@ for (const file of functionFiles) {
 	handler(client);
 }
 
-//adding test comment to see
 // Login to Discord with your client's token
 // client.handleEvents();
 // client.handleCommands();
