@@ -1,0 +1,36 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { Squabble } = require('../dbObjects.js');
+
+module.exports = {
+	data: new SlashCommandBuilder()
+		.setName('temp')
+		.setDescription('temp'),
+	async execute(interaction) {
+        if (interaction.guild.id == '902646067466747934' || interaction.guild.id == '832404047889039361') {
+            let role = interaction.guild.roles.cache.find(r => r.id === '903820814116352100');
+            //console.log(role);
+            //interaction.member.roles.remove(role);
+            let user = await Squabble.findOne({where: {userID: interaction.user.id}});
+            if (user) {
+                let test = Squabble.update({confirmed: 0}, {where: {userID: interaction.user.id}});
+                interaction.reply({
+                    content: "You're back! Are you sure you want to face the gauntlet now?"
+                });
+            } else {
+                let test = Squabble.create({userID: interaction.user.id, confirmed: 0, wins: 0, losses: 0, initiated: 0});
+                interaction.reply({
+                    content: "Are you sure you want to face the gauntlet?"
+                });
+            }
+        } else {
+            interaction.reply({
+                content: "This pog command is only available in the cool server."
+                , ephemeral: true
+            })
+        }
+    }
+};
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

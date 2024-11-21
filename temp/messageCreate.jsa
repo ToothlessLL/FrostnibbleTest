@@ -1,0 +1,27 @@
+const { Squabble } = require('../dbObjects.js');
+
+module.exports = {
+	name: 'messageCreate',
+	async execute(message) {
+        if ((message.guildId == '902646067466747934' || message.guildId == '832404047889039361') && !message.author.bot) {
+            const user = await Squabble.findOne({where: {userID: message.author.id}});
+            if (user) {
+                if (user.dataValues.confirmed == 0) {
+                    if (message.content.toLowerCase().trim() == 'yes') {
+                        let test = await Squabble.update({confirmed: 1}, {where: {userID: message.author.id}});
+                        message.channel.send("esmai is a cutie");
+                    } else if (message.content.toLowerCase().trim() == 'no') {
+                        message.channel.send("Come back when you're ready.");
+                    } else {
+                        message.channel.send("What? It's a yes or no question, how ca - you know what, maybe the gauntlet isn't for you." );
+                    }
+                }
+            }
+            if (message.content == '69') {
+                message.channel.send("Nice.");
+            } else if (message.content == '420') {
+                message.channel.send("Drugs?! in our christian minecraft server?!");
+            }
+        }
+	},
+};
