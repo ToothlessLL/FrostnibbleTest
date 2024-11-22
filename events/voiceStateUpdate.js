@@ -10,7 +10,7 @@ export default {
 	async execute(oldState, newState) {
         if (oldState.channelId == null && newState.channelId == '841973467511390238') {
             // let timer = await VoiceStateUpdate.findOne({where: {VSUID: 1}});
-            let timer = await sequelize.query(`select timer from VoiceStateUpdates where id = 1`);
+            let timer = await sequelize.query(`select timer from VoiceStateUpdates where id = 1`, {type: QueryTypes.SELECT});
             let cooldown = 3600000;
             if (Date.now() - timer[0].timer > cooldown) {
 				let users = await sequelize.query(`select id from ToxicCuntPings`, {type: QueryTypes.SELECT});

@@ -5,6 +5,7 @@
 import * as fs from 'fs';
 import { Collection, Client, GatewayIntentBits, Partials} from 'discord.js';
 import config from './config.json' with {type: "json"};
+
 // Create a new client instance
 const client = new Client({ 
 	intents: [
