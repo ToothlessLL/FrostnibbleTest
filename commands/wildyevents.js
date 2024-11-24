@@ -176,7 +176,7 @@ export default {
                 break;
         }
     },
-    async hourlyNotification(client) {
+    async oldHourlyNotification(client) {
         const startingTime = this.startingTime;
 		const hour = 3600;
 
@@ -222,6 +222,83 @@ export default {
 					console.log(err);
 				});
 			}
+		});
+    }
+    , async hourlyNotification(client) {
+        const startingTime = this.startingTime;
+		const hour = 3600;
+		const job = Cron('00 53 * * * *', async () => {
+        // const job = Cron('*/5 * * * * *', async () => {
+            let userData = new Map();
+            let indexMap = new Map();
+            const currentTime = Math.floor(new Date().valueOf() / 1000);
+            const hoursElapsed = Math.ceil((currentTime - startingTime)/hour);
+            const nextHour = (hoursElapsed * 3600) + startingTime;
+            let eventList = sequelize.query(`
+                select id
+                    , a.name || case when a.hasCombat = 1 then ' (combat)' else '' end || case when a.isSpecial = 1 then ' (special)' else '' end as name
+                    , hasCombat
+                    , isSpecial
+                    , image
+                from WildyEvents a
+                order by id
+            `, {type: QueryTypes.SELECT});
+            let subscriptionList = sequelize.query(`select * from WildyPings`, {type: QueryTypes.SELECT});
+            Promise.all([eventList, subscriptionList])
+            .then(result => {
+                const eventNumber = Math.ceil(((currentTime - startingTime)/hour)%result[0].length);
+                const data = result[1].filter(event => event.eventNumber == eventNumber + 1);
+                let newEventList = result[0].splice(eventNumber);
+                newEventList = [...newEventList, ...result[0]];
+                let splicedEventList = newEventList.splice(1);
+                let modifiedEventList = [...splicedEventList, ...newEventList];
+                newEventList = [...newEventList, ...splicedEventList];
+                let user = [];
+			    for (let i = 0; i < data.length; i++) {
+                    user.push(client.users.fetch(data[i].userID)) - 1;
+                    let userList = result[1].filter(list => list.userID == data[i].userID);
+                    let nextSubscribedEventIndex = modifiedEventList.findIndex(index => {
+                        for (let i = 0; i < userList.length; i++) {
+                            if (userList[i].eventNumber == index.id) return true;
+                        }
+                        return false;
+                    });
+                    userData.set(data[i].userID, {
+                        embed: new EmbedBuilder()
+                            .setTitle('Upcoming Wilderness Events')
+                            .setColor('#3b5cac')
+                            .setImage(newEventList[0].image)
+                            .setDescription(`# ${newEventList[0].name} <t:${nextHour}:R>\n\nAfterwards, get ready for **${modifiedEventList[nextSubscribedEventIndex].name} <t:${nextHour + (3600 * (nextSubscribedEventIndex + 1))}:R>** at **<t:${nextHour + (3600 * (nextSubscribedEventIndex + 1))}:t>**.`)
+                    });
+                }
+                return Promise.allSettled(user);
+            })
+            .then(result => {
+                let sendData = [];
+                result.forEach(user => {
+                    if (user.status == 'fulfilled') {
+                        let index = sendData.push(user.value.send({embeds: [userData.get(user.value.id).embed]})) - 1;
+                        indexMap.set(index, user.value.id);
+                    } if (user.status == 'rejected') console.log(user.reason);
+                });
+                return Promise.allSettled(sendData);
+            })
+            .then(result => {
+                let fulfilledList = [];
+                let rejectedList = [];
+                result.forEach((message, index) => {
+                    console.log(message);
+                    if (message.status == 'fulfilled') fulfilledList.push(indexMap.get(index));
+                    else rejectedList.push(indexMap.get(index));
+                });
+                sequelize.query(`update WildyPingNotifications set counter = 0 where userID in ('${fulfilledList.join("','")}')`, {type: QueryTypes.UPDATE});
+                return sequelize.query(`update WildyPingNotifications set counter = counter + 1 where userID in ('${rejectedList.join("','")}')`, {type: QueryTypes.UPDATE});
+            })
+            .then(result => {
+                sequelize.query(`delete from WildyPings where userID in (select userID from WildyPingNotifications where counter >= 3);`, {type: QueryTypes.DELETE});
+                sequelize.query(`delete from WildyPingNotifications where counter >= 3;`, {type: QueryTypes.DELETE});
+            })
+            .catch(err => console.log(err));
 		});
     }
 };
