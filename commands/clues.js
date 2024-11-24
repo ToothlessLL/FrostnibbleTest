@@ -14,8 +14,9 @@ import {QueryTypes} from 'sequelize';
 import Canvas, { GlobalFonts } from '@napi-rs/canvas';
 
 export default {
-    guildID: ['0'],
-	data: new SlashCommandBuilder()
+    guildID: ['0']
+	, itemPrices: []
+	, data: new SlashCommandBuilder()
 		.setName('clues')
 		.setDescription('add to clue spreadsheet')
 		.addSubcommand(option =>
@@ -2464,6 +2465,9 @@ export default {
 				filtered.map(choice => ({name: choice.name, value: choice.value}))
 			);
 		}
+	}
+	, async fetchPrices() {
+		
 	}
 };
 
