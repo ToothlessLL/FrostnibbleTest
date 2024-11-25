@@ -227,7 +227,7 @@ export default {
     , async hourlyNotification(client) {
         const startingTime = this.startingTime;
 		const hour = 3600;
-		const job = Cron('00 53 * * * *', async () => {
+		const job = new Cron('00 53 * * * *', async () => {
         // const job = Cron('*/5 * * * * *', async () => {
             let userData = new Map();
             let indexMap = new Map();

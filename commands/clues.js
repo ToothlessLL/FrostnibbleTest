@@ -12,10 +12,11 @@ import general from '../functions/general.js';
 import {sequelize} from '../dbObjects.js';
 import {QueryTypes} from 'sequelize';
 import Canvas, { GlobalFonts } from '@napi-rs/canvas';
+import {Cron} from 'croner';
 
 export default {
     guildID: ['0']
-	, itemPrices: []
+	, itemPrices: null
 	, data: new SlashCommandBuilder()
 		.setName('clues')
 		.setDescription('add to clue spreadsheet')
@@ -379,16 +380,7 @@ export default {
 				if (priceInput) {
 					price = priceInput;
 				} else {
-					var url = `https://api.weirdgloop.org/exchange/history/rs/latest?id=${item}`;
-					fetch(url, {headers: {"User-Agent": "Clue Broadcast Tracker - Discord username @toothlessll"}})
-					.then(response => response.json())
-					.then(data => {
-						price = (Object.entries(data))[0][1].price;
-					})
-					.catch(err => {
-						console.error(err);
-						price = -1;
-					});
+					price = this.itemPrices[item].price;
 				}
 				if (uploadedAttachment) {
 					saveImagePath = `${imageDirectory}\\${currentTimeFileName}.png`;
@@ -415,6 +407,7 @@ export default {
 				var userStats = await sequelize.query(`select ${searchColumn} from ClueUsers where clueUserID = ?`, {type: QueryTypes.SELECT, replacements: [interaction.user.id]});
 				if (userStats.length == 0) await sequelize.query(`insert into ClueUsers (clueUserID, ${searchColumn}) values (?, ?)`, {type: QueryTypes.INSERT, replacements: [interaction.user.id, totalClueCount]});
 				else await sequelize.query(`update ClueUsers set ${searchColumn} = ? where clueUserID = ?`, {type: QueryTypes.UPDATE, replacements: [totalClueCount, interaction.user.id]});
+				let message;
 				if (outputImagePath) message = await interaction.editReply({content: clueItem[0].name, files: [outputImagePath]});
 				else message = await interaction.editReply({content: `Added ${clueItem[0].name}`});
 				break;
@@ -2325,11 +2318,12 @@ export default {
 				}
 				if (newSelectedItem) {
 					if (!priceInput) {
-						var url = `https://api.weirdgloop.org/exchange/history/rs/latest?id=${newSelectedItem}`;
-						var response = await (await fetch(url)).json();
-						Object.entries(response).forEach((entry) => {
-							newPrice = entry[1].price;
-						});
+						newPrice = this.itemPrices[newSelectedItem].price;
+						// var url = `https://api.weirdgloop.org/exchange/history/rs/latest?id=${newSelectedItem}`;
+						// var response = await (await fetch(url)).json();
+						// Object.entries(response).forEach((entry) => {
+						// 	newPrice = entry[1].price;
+						// });
 					} else newPrice = priceInput;
 				} else {
 					newPrice = priceInput;
@@ -2419,16 +2413,15 @@ export default {
 		}
     },
 	async autocomplete(interaction) {
-		var items;                    
 		const focusedOption = interaction.options.getFocused(true);
 		if (focusedOption.name == 'item' || focusedOption.name == 'newitem') {
 			var columnText;
 			if (interaction.options.getSubcommand() == 'hard') columnText = 'hardDropRate';
 			if (interaction.options.getSubcommand() == 'elite') columnText = 'eliteDropRate';
 			if (interaction.options.getSubcommand() == 'master') columnText = 'masterDropRate';
-			items = await sequelize.query(`select name name, cast(clueItemID as TEXT) value from ClueItems where ${columnText} is not null`, {type: QueryTypes.SELECT});
+			let items = await sequelize.query(`select name name, cast(clueItemID as TEXT) value from ClueItems where ${columnText} is not null`, {type: QueryTypes.SELECT});
 			var filtered = [];
-			filtered = await items.filter(choice => choice.name.toLowerCase().includes(focusedOption.value.toLowerCase()));
+			filtered = items.filter(choice => choice.name.toLowerCase().includes(focusedOption.value.toLowerCase()));
 			filtered.length > 25 ? filtered = filtered.slice(0, 25) : null;
 			await interaction.respond(
 				filtered.map(choice => ({name: choice.name, value: choice.value}))
@@ -2439,6 +2432,7 @@ export default {
 			if (interaction.options.getSubcommand() == 'hard') tier = 1;
 			if (interaction.options.getSubcommand() == 'elite') tier = 2;
 			if (interaction.options.getSubcommand() == 'master') tier = 3;
+			let selectedUser;
 			try {
 				selectedUser = interaction.options.get('gamer').value;
 			} catch {
@@ -2459,7 +2453,7 @@ export default {
 			else if (['hard', 'elite', 'master'].includes(interaction.options.getSubcommand())) imageOutput = output.filter(choice => choice.tier == tier);
 			else imageOutput = output;
 			var filtered = [];
-			filtered = await imageOutput.filter(choice => choice.name.toLowerCase().includes(focusedOption.value.toLowerCase()));
+			filtered = imageOutput.filter(choice => choice.name.toLowerCase().includes(focusedOption.value.toLowerCase()));
 			filtered.length > 25 ? filtered = filtered.slice(0, 25) : null;
 			await interaction.respond(
 				filtered.map(choice => ({name: choice.name, value: choice.value}))
@@ -2467,7 +2461,22 @@ export default {
 		}
 	}
 	, async fetchPrices() {
-		
+		const clueItems = await sequelize.query(`select clueItemID, name from ClueItems`, {type: QueryTypes.SELECT})
+		const url = `https://api.weirdgloop.org/exchange/history/rs/latest?id=${clueItems.map(item => item.clueItemID).join('|')}`;
+		const job = new Cron('00 00 */12 * * *', async () => {
+			fetch(url, {headers: {"User-Agent": "Clue Broadcast Tracker - Discord username @toothlessll"}})
+			// fetch(url)
+			.then(result => result.json())
+			.then(result => {
+				this.itemPrices = result;
+			})
+			.catch(err => console.log(err));
+		});
+		job.trigger();
+		// var response = await (await fetch(url)).json();
+		// Object.entries(response).forEach((entry) => {
+		// 	newPrice = entry[1].price;
+		// });
 	}
 };
 
