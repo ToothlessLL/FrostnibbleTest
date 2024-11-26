@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import { Routes, REST } from 'discord.js';
 import config from '../config.json' with {type: "json"};
 
+//adding comment 4fun testing
 export default async function handleCommands(client) {
     const commandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith(".js"));
     const commands2 = [];
