@@ -1,6 +1,5 @@
 import * as fs from 'fs';
-import { REST } from '@discordjs/rest';
-import { Routes } from 'discord.js';
+import { Routes, REST } from 'discord.js';
 import config from '../config.json' with {type: "json"};
 
 export default async function handleCommands(client) {
