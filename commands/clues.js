@@ -7,7 +7,7 @@
 // const Canvas = require('@napi-rs/canvas');
 // const { AttachmentBuilder} = require('discord.js');
 
-import { AttachmentBuilder, SlashCommandBuilder } from 'discord.js';
+import { AttachmentBuilder, SlashCommandBuilder, InteractionContextType, ApplicationIntegrationType } from 'discord.js';
 import general from '../functions/general.js';
 import {sequelize} from '../dbObjects.js';
 import {QueryTypes} from 'sequelize';
@@ -19,7 +19,9 @@ export default {
 	, itemPrices: null
 	, data: new SlashCommandBuilder()
 		.setName('clues')
-		.setDescription('add to clue spreadsheet')
+		.setDescription('clue things')
+		.setContexts([InteractionContextType.BotDM, InteractionContextType.Guild, InteractionContextType.PrivateChannel])
+		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall])
 		.addSubcommand(option =>
 			option.setName('print')
 			.setDescription('Output drops in text format')
