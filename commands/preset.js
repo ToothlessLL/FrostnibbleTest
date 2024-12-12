@@ -4,7 +4,7 @@
 // const generalFunctions = require('../functions/general');
 // const fs = require('fs');
 
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder, InteractionContextType, ApplicationIntegrationType } from 'discord.js';
 import {sequelize} from '../dbObjects.js';
 import {QueryTypes} from 'sequelize';
 import generalFunctions from '../functions/general.js';
@@ -15,6 +15,8 @@ export default {
 	data: new SlashCommandBuilder()
 		.setName('preset')
 		.setDescription('Save your presets and find them easier!')
+		.setContexts([InteractionContextType.BotDM, InteractionContextType.Guild, InteractionContextType.PrivateChannel])
+		.setIntegrationTypes([ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall])
         .addSubcommand(subcommand =>
             subcommand.setName('add')
             .setDescription('Add a new preset')
