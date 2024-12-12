@@ -200,6 +200,7 @@ export default {
         }
     }, 
     async autocomplete(interaction) {
+        let selectedUser;
         try {
             selectedUser = interaction.options.get('user').value;
         } catch {
