@@ -15,7 +15,7 @@ let a = [
 export function loadBirthdays(client) {
     a.forEach((value, key) => {
         const user = client.users.fetch('162955183670820864').catch(err => console.log(err));
-        const minutes = 5; /* 5 minutes */
+        const minutes = 5;
         const ms = minutes * 60 * 1000;
         const date = new Date(value.birthday).getTime();
         const previousDay = new Date(date - ms);
@@ -29,7 +29,8 @@ export function loadBirthdays(client) {
                 .setTitle('BIRTHDAY NOTIFICATION')
                 .setDescription(`${value.name} is ${value.birthday} coming up in an hour`);
                 user.send({
-                    embeds: [embed]
+                    content: `<@162955183670820864>`
+                    , embeds: [embed]
                 });
             });
             const cron2 = new Cron(`0 55 23 ${day} ${month} *`, {timezone: value.timezone}, () => {
@@ -39,7 +40,8 @@ export function loadBirthdays(client) {
                 .setTitle('BIRTHDAY NOTIFICATION')
                 .setDescription(`${value.name} is ${value.birthday} coming up in 5 minutes`);
                 user.send({
-                    embeds: [embed]
+                    content: `<@162955183670820864>`
+                    , embeds: [embed]
                 });
             });
             console.log(cron.nextRuns(5));
