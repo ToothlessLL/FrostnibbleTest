@@ -1,6 +1,7 @@
 // const bingo = require(`../functions/bingo/bingo.js`);
 import wildyEvents from '../commands/wildyevents.js';
 import clues from '../commands/clues.js';
+import { loadBirthdays } from '../functions/birthdays.js';
 
 export default {
 	name: 'ready',
@@ -10,5 +11,6 @@ export default {
 		// await bingo.prePopulateValues();
 		await wildyEvents.hourlyNotification(client);
 		await clues.fetchPrices();
+		loadBirthdays(client);
 	},
 };
