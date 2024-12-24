@@ -7,7 +7,6 @@ let a = [
     , {name: `Rebecca's birthday`, timezone: `America/Chicago`, birthday: "02/01/1995"}
     , {name: `Gumbo's birthday`, timezone: `America/Chicago`, birthday: "01/31"}
     , {name: `bun's birthday`, timezone: `America/Los_Angeles`, birthday: "12/16/1980"}
-    , {name: `bun's birthday`, timezone: `America/Los_Angeles`, birthday: "12/24/1980"}
     , {name: `Kayla's birthday`, timezone: `America/New_York`, birthday: "12/07/1994"}
     , {name: `Jen's birthday`, timezone: `America/New_York`, birthday: "06/08/1996"}
     , {name: `Blob's birthday`, timezone: `Australia/Sydney`, birthday: "08/08"}
