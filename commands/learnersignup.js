@@ -170,7 +170,7 @@ export default {
 					.setPlaceholder('Nothing selected')
 					.addOptions(bossOptions)
 			);
-			embed = new EmbedBuilder ()
+			let embed = new EmbedBuilder ()
 			.setColor('#0099ff')
 			.setTitle('Pick a boss:')
 			.setDescription('Select a boss you want to sign up for');
