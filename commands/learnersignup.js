@@ -177,7 +177,7 @@ export default {
 			await interaction.channel.send({
 				embeds: [embed]
 				, components: [bosses]
-				, content: "You need to be a clan member in order to sign up for a learner session!"
+				// , content: "You need to be a clan member in order to sign up for a learner session!"
 			});
 			await interaction.editReply({content: 'posted module'});
 			return;

@@ -15,21 +15,21 @@ export default {
     async execute(interaction, client) {
 		await interaction.update({});
 		var bossInfo = await sequelize.query(`select boss, emoji, advanced from LearnerSignup where id = ?`, {type: QueryTypes.SELECT, replacements: [interaction.values[0]]});
-			const clannieRoles = [
-				'396184274769805313' //owner
-				, '396184742439026699' //dep owner
-				, '396185096463581186' //overseer
-				, '396186049820360735' //coordinator
-				, '396186811522744330' //organiser
-				, '396187133003563009' //admin
-				, '396187310191935488' //general
-				, '396187446724919298' //captain
-				, '396188250793836546' //lieutenant
-				, '396188752407691275' //sergeant
-				, '396189206348562432' //corporal
-				, '396189325337034753' //recruit
-			];
-			if (interaction.member._roles.some(r => clannieRoles.includes(r)) || interaction.guild.id === '902646067466747934') {
+			// const clannieRoles = [
+			// 	'396184274769805313' //owner
+			// 	, '396184742439026699' //dep owner
+			// 	, '396185096463581186' //overseer
+			// 	, '396186049820360735' //coordinator
+			// 	, '396186811522744330' //organiser
+			// 	, '396187133003563009' //admin
+			// 	, '396187310191935488' //general
+			// 	, '396187446724919298' //captain
+			// 	, '396188250793836546' //lieutenant
+			// 	, '396188752407691275' //sergeant
+			// 	, '396189206348562432' //corporal
+			// 	, '396189325337034753' //recruit
+			// ];
+			// if (interaction.member._roles.some(r => clannieRoles.includes(r)) || interaction.guild.id === '902646067466747934') {
 				if (bossInfo[0].advanced === 1) {
 					var selectMenuOptions;
 					if (bossInfo[0].boss == 'Zamorak: Lord of Chaos') {
@@ -126,11 +126,11 @@ export default {
 					.setTitle(`Which ${bossInfo[0].boss == 'Croesus' ? 'node' : 'combat style'} would you like to ${bossInfo[0].boss == 'Croesus' ? 'do' : 'use'} at ${bossInfo[0].boss}?`);
 					await interaction.followUp({embeds: [specificEmbed], components: [combatStyleSelectMenu], ephemeral: true});
 				}
-			} else {
-				await interaction.followUp({
-					content: "You need to be a clan member in order to sign up for a learner session!"
-					, ephemeral: true
-				});
-			}
+			// } else {
+			// 	await interaction.followUp({
+			// 		content: "You need to be a clan member in order to sign up for a learner session!"
+			// 		, ephemeral: true
+			// 	});
+			// }
     }
 }
