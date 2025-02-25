@@ -3,6 +3,7 @@
 
 import * as client from 'https';
 import * as fs from 'fs';
+import fspromise from 'node:fs/promises';
 
 export default {
     getRandomInt(min, max) {
@@ -120,4 +121,10 @@ export default {
 			, {id: 13, style: 'Necromancy/Ranged', type: 'combat'}
 			, {id: 14, style: 'Necromancy/Magic', type: 'combat'}
     ],
+
+    async writeFile (url, image) {
+        const result = fspromise.writeFile(url, image)
+        .catch(err => console.error(err));
+        return await result;
+    }
 }
