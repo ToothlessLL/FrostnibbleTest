@@ -91,9 +91,9 @@ export default {
     
     formatDate(date) {
         return [
-        padTo2Digits(date.getMonth() + 1),
-        padTo2Digits(date.getDate()),
-        date.getFullYear(),
+            this.padTo2Digits(date.getMonth() + 1),
+            this.padTo2Digits(date.getDate()),
+            date.getFullYear(),
         ].join('/');
     },
 

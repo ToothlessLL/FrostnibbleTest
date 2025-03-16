@@ -30,8 +30,10 @@ Promise.all(images)
 
     const canvas = createCanvas(result[0].width, result[0].height);
     const context = canvas.getContext('2d');
-    context.drawImage(result[1], upcomingStartX, y, upcomingEndX - upcomingStartX, (upcomingEndX - upcomingStartX)/scaling + 5);
-    context.drawImage(result[4], followingStartX, y, upcomingEndX - upcomingStartX, (upcomingEndX - upcomingStartX)/scaling + 5);
+    // context.drawImage(result[1], upcomingStartX, y, upcomingEndX - upcomingStartX, (upcomingEndX - upcomingStartX)/scaling + 5);
+    // context.drawImage(result[4], followingStartX, y, upcomingEndX - upcomingStartX, (upcomingEndX - upcomingStartX)/scaling + 5);
+    context.drawImage(result[1], 0, 0, result[1].width, result[1].height);
+    context.drawImage(result[4], 0, 0, result[4].width, result[4].height);
     context.drawImage(result[0], 0, 0, result[0].width, result[0].height);
 
     
