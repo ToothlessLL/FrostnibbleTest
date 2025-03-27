@@ -15,6 +15,8 @@ export default {
 	data: new SlashCommandBuilder()
 	.setName('wildyevents')
 	.setDescription('Get next event details!')
+    .setContexts([InteractionContextType.BotDM, InteractionContextType.Guild, InteractionContextType.PrivateChannel])
+    .setIntegrationTypes([ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall])
     .addSubcommand(subcommand =>
         subcommand
         .setName('display')
