@@ -4,7 +4,7 @@
 // const { QueryTypes, Op } = require('sequelize');
 // const {Cron} = require(`croner`);
 
-import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, InteractionContextType, ApplicationIntegrationType } from 'discord.js';
 import { sequelize } from '../dbObjects.js';
 import { QueryTypes } from 'sequelize';
 import {Cron} from 'croner';
