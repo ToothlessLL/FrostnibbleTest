@@ -20,7 +20,8 @@ const imagePath = `./wildy_stuff/images/`;
 const infernalStar = `Infernal Star`;
 const surprisingSeedlings = `Surprising Seedlings`;
 const hellhounds = `Hellhound Pack`;
-loadImages(hellhounds, infernalStar);
+const butterfly = `Butterfly Swarm`;
+loadImages(infernalStar, hellhounds);
 
 Promise.all(images)
 .then(result => {
@@ -35,19 +36,24 @@ Promise.all(images)
 
     
     context.font = '80px trajan pro';
-    context.fillStyle = yellow;
-    let text = `Wilderness Event: ${nextEvent}`;
+    context.fillStyle = ivory;
+    let fullText = `Wilderness Event: ${nextEvent}`;
+    let fullTextMeasure = context.measureText(fullText);
+    let text = 'Wilderness Event: ';
     let textMeasure = context.measureText(text);
-    context.fillText(text, canvas.width/2 - textMeasure.width/2, 1250);
+    context.fillText(text, canvas.width/2 - fullTextMeasure.width/2, 1250);
+    context.fillStyle = yellow;
+    text = nextEvent;
+    context.fillText(text, canvas.width/2 - fullTextMeasure.width/2 + textMeasure.width, 1250);
 
     context.font = '60px trajan pro';
-    context.fillStyle = ivory;
+    context.fillStyle = yellow;
     text = '16:00 GT';
     textMeasure = context.measureText(text);
     context.fillText(text, 680 - textMeasure.width/2, 1120);
     
     context.font = '60px trajan pro';
-    context.fillStyle = ivory;
+    context.fillStyle = yellow;
     text = '17:00 GT';
     textMeasure = context.measureText(text);
     context.fillText(text, 1460 - textMeasure.width/2, 1120);

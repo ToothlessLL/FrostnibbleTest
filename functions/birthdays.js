@@ -17,6 +17,7 @@ let a = [
     , {name: `Lori's birthday`, timezone: `America/Los_Angeles`, birthday: "12/22/1982"}
     , {name: `Jacob's birthday`, timezone: `America/Los_Angeles`, birthday: "1/16"}
     , {name: `Dib's birthday`, timezone: `America/New_York`, birthday: "10/23"}
+    , {name: `Suizzy's birthday`, timezone: `America/Phoenix`, birthday: "04/06"}
 ];
 
 export function loadBirthdays(client) {
