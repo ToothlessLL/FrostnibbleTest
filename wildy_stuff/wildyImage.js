@@ -10,20 +10,19 @@ GlobalFonts.registerFromPath(`./Fonts/trajan-pro\\TrajanPro-Regular.ttf`, 'traja
 const ivory = "#fcf7e4";
 const yellow = '#FFCB05FF';
 
-const images = [
-    loadImage(`./wildy_stuff/images/Wilderness_Events_Border.png`)
-];
+export const events = {
+    INFERNAL_STAR: `Infernal Star`
+    , SURPRISING_SEEDLINGS: `Surprising Seedlings`
+    , HELLHOUND_PACK: `Hellhound Pack`
+    , BUTTERFLY_SWARM: `Butterfly Swarm`
+    , DEMON_STRAGGLERS: `Demon Stragglers`
+    , UNNATURAL_OUTCROP: `Unnatural Outcrop`
+}
 
 let nextEvent;
 const imagePath = `./wildy_stuff/images/`;
 
-const infernalStar = `Infernal Star`;
-const surprisingSeedlings = `Surprising Seedlings`;
-const hellhounds = `Hellhound Pack`;
-const butterfly = `Butterfly Swarm`;
-loadImages(infernalStar, hellhounds);
-
-Promise.all(images)
+Promise.all(loadImages(events.UNNATURAL_OUTCROP, events.SURPRISING_SEEDLINGS))
 .then(result => {
     const coloredImage = result[1];
     const washedImage = result[2];
@@ -66,7 +65,8 @@ Promise.all(images)
 .catch(error => console.log(error));
 
 function loadImages (colored, washed) {
-    nextEvent = colored;
+    const images = [loadImage(`${imagePath}Wilderness_Events_Border.png`)];
     images.push(loadImage(`${imagePath}${colored.replaceAll(' ', '_')}.png`));
     images.push(loadImage(`${imagePath}${washed.replaceAll(' ', '_')}_washed.png`));
+    return images;
 }

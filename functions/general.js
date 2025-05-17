@@ -100,6 +100,23 @@ export default {
     padTo2Digits(num) {
         return num.toString().padStart(2, '0');
     },
+    
+    formatUTCDate(date) {
+        return [
+            this.padTo2Digits(date.getUTCMonth() + 1),
+            this.padTo2Digits(date.getUTCDate()),
+            date.getUTCFullYear(),
+        ].join('/');
+    },
+    
+    getTime(date) {
+        return `${this.padTo2Digits(date.getUTCHours())}:${this.padTo2Digits(date.getUTCMinutes())}:${this.padTo2Digits(date.getUTCSeconds())}`;
+    },
+    
+    getDateTime(date) {
+        return `${this.formatUTCDate(date)} ${this.getTime(date)}`;
+    },
+
 
     capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);

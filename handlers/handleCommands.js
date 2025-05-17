@@ -4,7 +4,7 @@ import config from '../config.json' with {type: "json"};
 
 //adding comment 4fun testing
 export default async function handleCommands(client) {
-    const commandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith(".js"));
+    const commandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith(".js") || file.endsWith('.ts'));
     const commands2 = [];
 
     const {commands} = client;
