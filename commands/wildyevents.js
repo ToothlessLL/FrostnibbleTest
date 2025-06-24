@@ -344,10 +344,11 @@ async function getOutputUsingV2(interaction) {
     
         const text1 = [`# Upcoming Wilderness Event`];
         text1.push(`${config.firstEvent.subscribed ? `Your next subscribed` : `The next`} event is **${config.firstEvent.name} <t:${config.firstEvent.time}:R>** at **<t:${config.firstEvent.time}:t>**.`);
-        // image.setURL(config.firstEvent.image);
-        const imageLink = `C:\\Users\\warri\\OneDrive\\Alan\\node projects\\Frostnibble\\wildy_stuff\\images\\Wilderness_Events_Border.png`;
-        const file = new AttachmentBuilder(imageLink);
-        image.setURL(`attachment://Wilderness_Events_Border.png`);
+        image.setURL(config.firstEvent.image);
+        const file = new AttachmentBuilder(config.firstEvent.image);
+        // const imageLink = `C:\\Users\\warri\\OneDrive\\Alan\\node projects\\Frostnibble\\wildy_stuff\\images\\Wilderness_Events_Border.png`;
+        // const file = new AttachmentBuilder(imageLink);
+        // image.setURL(`attachment://Wilderness_Events_Border.png`);
         
         container.addTextDisplayComponents(
             new TextDisplayBuilder().setContent(text1.join('\n'))
