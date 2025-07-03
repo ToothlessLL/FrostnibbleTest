@@ -5,7 +5,7 @@ export default {
         name: `bingoissues`
     },
     async execute(interaction) {
-        interaction.update({});
+        await interaction.update({});
         let user = interaction.user.username;
         user += interaction.member.nickname ? ` (${interaction.member.nickname})` : '';
         let title = `${user} - Summer 2025 Bingo`;
