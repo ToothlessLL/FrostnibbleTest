@@ -23,7 +23,7 @@ export default {
 		container.addMediaGalleryComponents(media);
 		container.addSeparatorComponents(separator => separator.setSpacing(SeparatorSpacingSize.Small));
 		const section = new SectionBuilder().addTextDisplayComponents(text1).setButtonAccessory(button);
-		container.addSectionComponents(section)
+		container.addSectionComponents(section);
         // container.addTextDisplayComponents(text1);
         // container.addActionRowComponents(row => row.addComponents(button));
         interaction.channel.send({

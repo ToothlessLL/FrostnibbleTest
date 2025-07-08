@@ -5,8 +5,12 @@
 // const { clientId, guildId, token } = require('./config.json');
 
 import * as fs from 'fs';
-import config from './config.json' with {type: "json"};
+// import config from './config.json' with {type: "json"};
 import {REST, Routes} from 'discord.js';
+export const config = {
+	token: process.env.TOKEN
+	, clientId: process.env.CLIENT_ID
+};
 
 const commandsList = new Map();
 const commandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith('.js'));
