@@ -30,6 +30,7 @@ export default async function handleCommands(client) {
     //     .then(() => console.log('Successfully deleted all application commands.'))
     //     .catch(console.error);
 
+    console.log(`clientId: ${config.clientId}, guildId: ${config.guildId}`);
     rest.put(Routes.applicationGuildCommands(config.clientId, config.guildId), { body: commands2 })
         .then(() => console.log('Successfully registered application commands.'))
         .catch(console.error);
