@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { Routes, REST } from 'discord.js';
 // import config from '../config.json' with {type: "json"};
-import {config} from './index.js';
+import {config} from '../index.js';
 // const config = {
 // 	token: process.env.TOKEN
 // 	, clientId: process.env.CLIENT_ID
