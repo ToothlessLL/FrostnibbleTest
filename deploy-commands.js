@@ -7,7 +7,11 @@
 import * as fs from 'fs';
 // import config from './config.json' with {type: "json"};
 import {REST, Routes} from 'discord.js';
-import {config} from './index.js';
+const config = {
+	token: process.env.DISCORD_BOT_TOKEN
+	, clientId: process.env.CLIENT_ID
+	, guildId: process.env.GUILD_ID
+};
 
 const commandsList = new Map();
 const commandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith('.js'));

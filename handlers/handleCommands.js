@@ -1,12 +1,10 @@
 import * as fs from 'fs';
 import { Routes, REST } from 'discord.js';
-// import config from '../config.json' with {type: "json"};
-import {config} from '../index.js';
-// const config = {
-// 	token: process.env.TOKEN
-// 	, clientId: process.env.CLIENT_ID
-// 	, guildId: process.env.GUILD_ID
-// };
+const config = {
+	token: process.env.DISCORD_BOT_TOKEN
+	, clientId: process.env.CLIENT_ID
+	, guildId: process.env.GUILD_ID
+};
 
 //adding comment 4fun testing
 export default async function handleCommands(client) {
