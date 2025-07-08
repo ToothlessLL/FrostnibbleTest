@@ -12,8 +12,6 @@ export const config = {
 	, guildId: process.env.GUILD_ID
 };
 
-console.log(config.token);
-
 // Create a new client instance
 const client = new Client({ 
 	intents: [
@@ -32,9 +30,6 @@ client.commandArray = [];
 client.buttons = new Collection();
 client.selectMenus = new Collection();
 client.modals = new Collection();
-
-console.clear();
-
 
 const functionFiles = fs.readdirSync(`./handlers`).filter(file => file.endsWith(".js"));
 for (const file of functionFiles) {
