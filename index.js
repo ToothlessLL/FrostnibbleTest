@@ -5,7 +5,7 @@
 import * as fs from 'fs';
 import { Collection, Client, GatewayIntentBits, Partials} from 'discord.js';
 // import config from './config.json' with {type: "json"};
-const config = {
+export const config = {
 	token: process.env.DISCORD_BOT_TOKEN
 	, clientId: process.env.CLIENT_ID
 	, guildId: process.env.GUILD_ID
