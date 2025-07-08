@@ -14,7 +14,7 @@ export default async function handleCommands(client) {
     const {commands} = client;
     for (const file of commandFiles) {
         const {default: command} = await import(`../commands/${file}`);
-        // console.log(command.guildID);
+        console.log(command.data.name);
         commands.set(command.data.name, command);
         commands2.push(command.data.toJSON());
     }
