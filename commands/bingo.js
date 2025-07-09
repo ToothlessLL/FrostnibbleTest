@@ -7,10 +7,11 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, MediaGalleryBuilder, Medi
 import {sequelize} from '../dbObjects.js';
 import {QueryTypes} from 'sequelize';
 
+const googleauth = JSON.parse(process.env.GOOGLE_AUTH)
+
 const auth = new google.auth.GoogleAuth({
-    // keyFile: './googleapi.json'
-    scopes: ['https://www.googleapis.com/auth/spreadsheets']
-    , jsonContent: googlejson
+    credentials: {client_email: googleauth.client_email, private_key: googleauth.private_key}
+    , scopes: ['https://www.googleapis.com/auth/spreadsheets']
 });
 
 const sheetConfig = {
